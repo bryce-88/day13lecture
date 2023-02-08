@@ -2,30 +2,65 @@ package ibf2022.ssf.day13.model;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
+
+//demonstrates using Constraints such as @NotNull, @NotEmpty etc
 public class Employee {
     
+    @NotEmpty(message="First name is mandatory field")
+    @Size(min = 1, max = 100, message="First name must be between 1 to 100 characters")
     private String firstName;
 
+    @NotEmpty(message="Last name is mandatory field")
+    @Size(min = 1, max = 100, message="Last name must be between 1 to 100 characters")
     private String lastName;
 
+    @Email(message="Invalid Email format")
+    @Size(max = 120, message="Email must be under 120 characters")
+    @Pattern(regexp = ".+@.+\\..+", message = "Wrong email format")
+    @NotBlank(message = "Email is a mandatory field")
     private String email;
 
+    @Pattern(regexp = "(\\8|9) [0-9] {7}", message = "Wrong phone format")
     private String phoneNo;
 
+    @Min(value = 1500, message="Minimum salary starts from 1500")
+    @Max(value = 400000, message="Maximum salary is 400000")
     private Integer salary;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @PastOrPresent(message="Birth date must be earlier than today")
     private Date birthDay;
 
     private String address;
 
-    
+    @Digits(fraction=0, integer=6, message="Postal code format, i.e 123456")
+    private Integer postalCode;
+
 
     public Employee() {
     }
 
 
-    public Employee(String firstName, String lastName, String email, String phoneNo, Integer salary, Date birthDay,
-            String address) {
+    public Employee(
+            @NotEmpty(message = "First name is mandatory field") @Size(min = 1, max = 100, message = "First name must be between 1 to 100 characters") String firstName,
+            @NotEmpty(message = "Last name is mandatory field") @Size(min = 1, max = 100, message = "Last name must be between 1 to 100 characters") String lastName,
+            @Email(message = "Invalid Email format") @Size(max = 120, message = "Email must be under 120 characters") @Pattern(regexp = ".+@.+\\..+", message = "Wrong email format") @NotBlank(message = "Email is a mandatory field") String email,
+            @Pattern(regexp = "(\\8|9) [0-9] {7}", message = "Wrong phone format") String phoneNo,
+            @Min(value = 1500, message = "Minimum salary starts from 1500") @Max(value = 400000, message = "Maximum salary is 400000") Integer salary,
+            Date birthDay, String address,
+            @Digits(fraction = 0, integer = 6, message = "Postal code format, i.e 123456") Integer postalCode) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -33,7 +68,11 @@ public class Employee {
         this.salary = salary;
         this.birthDay = birthDay;
         this.address = address;
+        this.postalCode = postalCode;
     }
+
+
+
 
 
 
@@ -93,8 +132,15 @@ public class Employee {
         this.address = address;
     }
 
+        public Integer getPostalCode() {
+        return postalCode;
+    }
 
-    
+
+    public void setPostalCode(Integer postalCode) {
+        this.postalCode = postalCode;
+    }
+
 
     @Override
     public int hashCode() {
