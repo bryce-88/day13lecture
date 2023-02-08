@@ -19,11 +19,11 @@ import jakarta.validation.constraints.Size;
 public class Employee {
     
     @NotEmpty(message="First name is mandatory field")
-    @Size(min = 1, max = 100, message="First name must be between 1 to 100 characters")
+    @Size(min = 3, max = 100, message="First name must be between 1 to 100 characters")
     private String firstName;
 
     @NotEmpty(message="Last name is mandatory field")
-    @Size(min = 1, max = 100, message="Last name must be between 1 to 100 characters")
+    @Size(min = 2, max = 100, message="Last name must be between 1 to 100 characters")
     private String lastName;
 
     @Email(message="Invalid Email format")
@@ -32,7 +32,7 @@ public class Employee {
     @NotBlank(message = "Email is a mandatory field")
     private String email;
 
-    @Pattern(regexp = "(\\8|9) [0-9] {7}", message = "Wrong phone format")
+    @Pattern(regexp = "(8|9)[0-9]{7}", message = "Wrong phone format") //{7} is 7 digits long after first digit
     private String phoneNo;
 
     @Min(value = 1500, message="Minimum salary starts from 1500")
